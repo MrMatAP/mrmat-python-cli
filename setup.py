@@ -32,6 +32,8 @@ setup(
     author_email='imfeldma+9jqerw@gmail.com',
     description='Boilerplate for a Python CLI',
 
+    setup_requires=['flake8'],
+
     entry_points={
         'console_scripts': [
             'mrmat-python-cli-plain = mrmat_python_cli.plain:main',
