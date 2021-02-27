@@ -34,7 +34,8 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'mrmat-python-cli = mrmat_python_cli.app:main'
+            'mrmat-python-cli-plain = mrmat_python_cli.plain:main',
+            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
         ]
     }
 )
