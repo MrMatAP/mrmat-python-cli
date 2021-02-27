@@ -1,2 +1,3 @@
-# mrmat-python-cli
-Boilerplate for a Python CLI
+# MrMat :: Python CLI
+
+Boilerplate code for a Python CLI
