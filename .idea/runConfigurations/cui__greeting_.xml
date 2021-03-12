@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cui" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="cui (greeting)" type="PythonConfigurationType" factoryName="Python">
     <module name="mrmat-python-cli" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -13,7 +13,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="mrmat_python_cli.cui" />
-    <option name="PARAMETERS" value="" />
+    <option name="PARAMETERS" value="greeting -n MrMat" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="true" />

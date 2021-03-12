@@ -30,20 +30,12 @@ import cli_ui
 from mrmat_python_cli import __version__
 
 
-def main() -> int:
-    """
-    Main entry point for the CLI
+def greeting(args: argparse.Namespace) -> int:
+    print(f'Hello {args.name}')
+    return 0
 
-    :return: Exit code
-    """
-    parser = argparse.ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')   # NOSONAR
-    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
-    parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
 
-    args = parser.parse_args()
-
-    cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
-
+def ui_demo(args: argparse.Namespace) -> int:
     cli_ui.info_section('Messages')
     cli_ui.info('This is an info message')
     cli_ui.info_1('This is an important informative message')
@@ -69,7 +61,7 @@ def main() -> int:
     cli_ui.info_table(data, headers=headers)
 
     cli_ui.info_section('Simple Progress')
-    for i in range(0, 5):       # NOSONAR
+    for i in range(0, 5):  # NOSONAR
         time.sleep(0.2)
         cli_ui.dot()
     cli_ui.dot(last=True)
@@ -85,6 +77,43 @@ def main() -> int:
         cli_ui.info_progress("Processing", i, 5)
 
     return 0
+
+
+def main() -> int:
+    """
+    Main entry point for the CLI
+
+    :return: Exit code
+    """
+    parser = argparse.ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
+    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
+    parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
+    command_parser = parser.add_subparsers(help='Commands', dest='command')
+    greeting_parser = command_parser.add_parser('greeting', help='Execute the greeting command')
+    greeting_parser.add_argument('-n', '--name',
+                                 dest='name',
+                                 required=False,
+                                 default='World',
+                                 help='Name to greet (defaults to "World"')
+    greeting_parser.set_defaults(func=greeting)
+
+    ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
+    ui_demo_parser.set_defaults(func=ui_demo)
+
+    #
+    # Parse arguments and initialise
+
+    args = parser.parse_args()
+    cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
+
+    #
+    # Execute
+    # Show help if no command was selected
+
+    if args.command is None:
+        parser.print_help()
+        return 0
+    return args.func(args)
 
 
 if __name__ == '__main__':
