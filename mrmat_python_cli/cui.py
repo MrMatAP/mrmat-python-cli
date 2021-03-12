@@ -23,60 +23,10 @@
 
 import sys
 import argparse
-import time
-
 import cli_ui
 
 from mrmat_python_cli import __version__
-
-
-def greeting(args: argparse.Namespace) -> int:
-    print(f'Hello {args.name}')
-    return 0
-
-
-def ui_demo(args: argparse.Namespace) -> int:
-    cli_ui.info_section('Messages')
-    cli_ui.info('This is an info message')
-    cli_ui.info_1('This is an important informative message')
-    cli_ui.info_2('This is a not so important informative message')
-    cli_ui.info_3('This is an even less important informative message')
-    cli_ui.warning('This is a warning message (on stderr)')
-    cli_ui.error('This is an error message (on stderr)')
-    # cli_ui.fatal('This is a fatal message (on stderr, exits)')
-    cli_ui.debug(cli_ui.purple, 'This is a debug message')
-
-    cli_ui.info_section('Formatting')
-    cli_ui.info("one", "\n",
-                cli_ui.tabs(1), "two", "\n",
-                cli_ui.tabs(2), "three", "\n",
-                sep="")
-
-    cli_ui.info_section('Table')
-    headers = ['foo', 'bar', 'baz']
-    data = [
-        [(cli_ui.bold, '1'), (cli_ui.yellow, '2'), (cli_ui.purple, '3')],
-        ['one', 'two', (cli_ui.cross, '')]
-    ]
-    cli_ui.info_table(data, headers=headers)
-
-    cli_ui.info_section('Simple Progress')
-    for i in range(0, 5):  # NOSONAR
-        time.sleep(0.2)
-        cli_ui.dot()
-    cli_ui.dot(last=True)
-
-    cli_ui.info_section('Labelled Progress')
-    for i in range(0, 5):
-        time.sleep(0.2)
-        cli_ui.info_count(i, 5, 'Processing...')
-
-    cli_ui.info_section('Percent Progress')
-    for i in range(0, 5):
-        time.sleep(0.2)
-        cli_ui.info_progress("Processing", i, 5)
-
-    return 0
+from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
 
 def main() -> int:
@@ -95,10 +45,10 @@ def main() -> int:
                                  required=False,
                                  default='World',
                                  help='Name to greet (defaults to "World"')
-    greeting_parser.set_defaults(func=greeting)
+    greeting_parser.set_defaults(func=GreetingCommand.execute)
 
     ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
-    ui_demo_parser.set_defaults(func=ui_demo)
+    ui_demo_parser.set_defaults(func=UIDemoCommand.execute)
 
     #
     # Parse arguments and initialise

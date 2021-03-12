@@ -21,5 +21,12 @@
 #  SOFTWARE.
 #
 
-from .greeting import GreetingCommand
-from .ui_demo import UIDemoCommand
+from argparse import Namespace
+
+
+class GreetingCommand:
+
+    @staticmethod
+    def execute(args: Namespace) -> int:
+        print(f'Hello {args.name}')
+        return 0
