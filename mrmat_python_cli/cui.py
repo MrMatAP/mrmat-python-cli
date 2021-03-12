@@ -45,10 +45,10 @@ def main() -> int:
                                  required=False,
                                  default='World',
                                  help='Name to greet (defaults to "World"')
-    greeting_parser.set_defaults(func=GreetingCommand.execute)
+    greeting_parser.set_defaults(cmd=GreetingCommand)
 
     ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
-    ui_demo_parser.set_defaults(func=UIDemoCommand.execute)
+    ui_demo_parser.set_defaults(cmd=UIDemoCommand)
 
     #
     # Parse arguments and initialise
@@ -63,7 +63,8 @@ def main() -> int:
     if args.command is None:
         parser.print_help()
         return 0
-    return args.func(args)
+    cmd = args.cmd(args)
+    return cmd.execute()
 
 
 if __name__ == '__main__':

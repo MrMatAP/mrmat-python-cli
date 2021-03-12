@@ -23,14 +23,16 @@
 
 from argparse import Namespace
 import time
-
 import cli_ui
 
+from mrmat_python_cli.commands import AbstractCommand
 
-class UIDemoCommand:
 
-    @staticmethod
-    def execute(args: Namespace) -> int:
+class UIDemoCommand(AbstractCommand):
+
+
+
+    def execute(self) -> int:
         cli_ui.info_section('Messages')
         cli_ui.info('This is an info message')
         cli_ui.info_1('This is an important informative message')

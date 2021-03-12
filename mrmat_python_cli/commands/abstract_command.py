@@ -21,11 +21,17 @@
 #  SOFTWARE.
 #
 
-from mrmat_python_cli.commands import AbstractCommand
+from abc import ABC, abstractmethod
+from argparse import Namespace
 
 
-class GreetingCommand(AbstractCommand):
+class AbstractCommand(ABC):
 
+    args: Namespace
+
+    def __init__(self, args: Namespace):
+        self.args = args
+
+    @abstractmethod
     def execute(self) -> int:
-        print(f'Hello {self.args.name}')
-        return 0
+        pass

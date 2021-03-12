@@ -21,5 +21,6 @@
 #  SOFTWARE.
 #
 
+from .abstract_command import AbstractCommand
 from .greeting import GreetingCommand
 from .ui_demo import UIDemoCommand
