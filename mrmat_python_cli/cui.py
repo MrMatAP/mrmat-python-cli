@@ -22,6 +22,7 @@
 #
 
 import sys
+from typing import Union
 import argparse
 import cli_ui
 
@@ -29,7 +30,7 @@ from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
 
-def parse_args(argv: list[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> Union[argparse.Namespace, None]:
     """
     A dedication function to parse the command line arguments. Makes it a lot easier
     to test CLI parameters.
@@ -56,17 +57,19 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     args = parser.parse_args(argv)
     if args.command is None:
         parser.print_help()
-        sys.exit(0)
+        return None
     return args
 
 
-def main() -> int:
+def main(argv: list[str]) -> int:
     """
     Main entry point for the CLI
 
     :return: Exit code
     """
-    args = parse_args(sys.argv[1:])
+    args = parse_args(argv)
+    if args is None:
+        return 0
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
     #
@@ -78,4 +81,4 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

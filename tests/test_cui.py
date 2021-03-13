@@ -21,15 +21,18 @@
 #  SOFTWARE.
 #
 
-from argparse import Namespace
+from mrmat_python_cli.cui import main
 
-from mrmat_python_cli.commands import GreetingCommand
+
+def test_help(capsys):
+    ret = main([])
+    captured = capsys.readouterr()
+    assert ret == 0
+    assert 'optional arguments' in captured.out
 
 
 def test_greeting(capsys):
-    args = Namespace(name='MrMat')
-    cmd = GreetingCommand(args)
-    ret = cmd.execute()
+    ret = main(['greeting', '--name', 'Eelyn'])
     captured = capsys.readouterr()
     assert ret == 0
-    assert captured.out == 'Hello MrMat\n'
+    assert captured.out == 'Hello Eelyn\n'
