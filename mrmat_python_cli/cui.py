@@ -29,11 +29,15 @@ from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
 
-def main() -> int:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     """
-    Main entry point for the CLI
+    A dedication function to parse the command line arguments. Makes it a lot easier
+    to test CLI parameters.
 
-    :return: Exit code
+    This will exit with code 0 and show help if no command is chosen.
+
+    :param argv: The command line parameters, minus the name of the script
+    :return: The parsed command line arguments.
     """
     parser = argparse.ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
@@ -49,20 +53,26 @@ def main() -> int:
 
     ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
     ui_demo_parser.set_defaults(cmd=UIDemoCommand)
+    args = parser.parse_args(argv)
+    if args.command is None:
+        parser.print_help()
+        sys.exit(0)
+    return args
 
-    #
-    # Parse arguments and initialise
 
-    args = parser.parse_args()
+def main() -> int:
+    """
+    Main entry point for the CLI
+
+    :return: Exit code
+    """
+    args = parse_args(sys.argv[1:])
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
     #
     # Execute
     # Show help if no command was selected
 
-    if args.command is None:
-        parser.print_help()
-        return 0
     cmd = args.cmd(args)
     return cmd.execute()
 
