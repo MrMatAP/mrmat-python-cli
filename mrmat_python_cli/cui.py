@@ -29,8 +29,8 @@ import cli_ui
 from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
-
-def parse_args(argv: list[str]) -> Optional[Namespace]:
+# Note that the type hint Optional[Namespace] only works with Python 3.9+
+def parse_args(argv: list[str]):
     """
     A dedication function to parse the command line arguments. Makes it a lot easier
     to test CLI parameters.
