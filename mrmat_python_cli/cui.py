@@ -22,15 +22,15 @@
 #
 
 import sys
-from typing import Union
-import argparse
+from typing import Optional
+from argparse import ArgumentParser, Namespace
 import cli_ui
 
 from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
 
-def parse_args(argv: list[str]) -> Union[argparse.Namespace, None]:
+def parse_args(argv: list[str]) -> Optional[Namespace]:
     """
     A dedication function to parse the command line arguments. Makes it a lot easier
     to test CLI parameters.
@@ -40,7 +40,7 @@ def parse_args(argv: list[str]) -> Union[argparse.Namespace, None]:
     :param argv: The command line parameters, minus the name of the script
     :return: The parsed command line arguments.
     """
-    parser = argparse.ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
+    parser = ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
     parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
     command_parser = parser.add_subparsers(help='Commands', dest='command')
