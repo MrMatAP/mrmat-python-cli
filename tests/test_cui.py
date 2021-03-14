@@ -21,22 +21,18 @@
 #  SOFTWARE.
 #
 
-from setuptools import setup
+from mrmat_python_cli.cui import main
 
-setup(
-    name='mrmat-python-cli',
-    version='0.0.1',
-    packages=['mrmat_python_cli'],
-    license='MIT',
-    author='imfeldma',
-    author_email='imfeldma+9jqerw@gmail.com',
-    description='Boilerplate for a Python CLI',
 
-    setup_requires=['flake8'],
+def test_help(capsys):
+    ret = main([])
+    captured = capsys.readouterr()
+    assert ret == 0
+    assert 'optional arguments' in captured.out
 
-    entry_points={
-        'console_scripts': [
-            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
-        ]
-    }
-)
+
+def test_greeting(capsys):
+    ret = main(['greeting', '--name', 'Eelyn'])
+    captured = capsys.readouterr()
+    assert ret == 0
+    assert captured.out == 'Hello Eelyn\n'

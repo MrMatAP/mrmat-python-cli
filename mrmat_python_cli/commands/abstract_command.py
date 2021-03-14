@@ -21,36 +21,17 @@
 #  SOFTWARE.
 #
 
-import sys
-import argparse
-import logging
-
-from mrmat_python_cli import __version__
-
-logging.basicConfig(level=logging.WARNING, format='%(levelname)-8s - %(message)s')
-LOG = logging.getLogger(__name__)
+from abc import ABC, abstractmethod
+from argparse import Namespace
 
 
-def main() -> int:
-    """
-    Main entry point for the CLI
+class AbstractCommand(ABC):
 
-    :return: Exit code
-    """
-    parser = argparse.ArgumentParser(description=f'mrmat-python-cli - {__version__}')
-    parser.add_argument('-v', '--verbose', action='store_true', dest='verbose', help='Be verbose')
-    parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
+    args: Namespace
 
-    args = parser.parse_args()
-    if args.verbose:
-        LOG.setLevel(logging.INFO)
-    if args.debug:
-        LOG.setLevel(logging.DEBUG)
-        LOG.debug('Debug logging enabled')
+    def __init__(self, args: Namespace):
+        self.args = args
 
-    LOG.warning('Hello World!')
-    return 0
-
-
-if __name__ == '__main__':
-    sys.exit(main())
+    @abstractmethod
+    def execute(self) -> int:
+        pass

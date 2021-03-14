@@ -21,22 +21,6 @@
 #  SOFTWARE.
 #
 
-from setuptools import setup
-
-setup(
-    name='mrmat-python-cli',
-    version='0.0.1',
-    packages=['mrmat_python_cli'],
-    license='MIT',
-    author='imfeldma',
-    author_email='imfeldma+9jqerw@gmail.com',
-    description='Boilerplate for a Python CLI',
-
-    setup_requires=['flake8'],
-
-    entry_points={
-        'console_scripts': [
-            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
-        ]
-    }
-)
+from .abstract_command import AbstractCommand
+from .greeting import GreetingCommand
+from .ui_demo import UIDemoCommand

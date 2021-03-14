@@ -21,22 +21,11 @@
 #  SOFTWARE.
 #
 
-from setuptools import setup
+from mrmat_python_cli.commands import AbstractCommand
 
-setup(
-    name='mrmat-python-cli',
-    version='0.0.1',
-    packages=['mrmat_python_cli'],
-    license='MIT',
-    author='imfeldma',
-    author_email='imfeldma+9jqerw@gmail.com',
-    description='Boilerplate for a Python CLI',
 
-    setup_requires=['flake8'],
+class GreetingCommand(AbstractCommand):
 
-    entry_points={
-        'console_scripts': [
-            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
-        ]
-    }
-)
+    def execute(self) -> int:
+        print(f'Hello {self.args.name}')
+        return 0

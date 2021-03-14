@@ -21,22 +21,15 @@
 #  SOFTWARE.
 #
 
-from setuptools import setup
+from argparse import Namespace
 
-setup(
-    name='mrmat-python-cli',
-    version='0.0.1',
-    packages=['mrmat_python_cli'],
-    license='MIT',
-    author='imfeldma',
-    author_email='imfeldma+9jqerw@gmail.com',
-    description='Boilerplate for a Python CLI',
+from mrmat_python_cli.commands import GreetingCommand
 
-    setup_requires=['flake8'],
 
-    entry_points={
-        'console_scripts': [
-            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
-        ]
-    }
-)
+def test_greeting(capsys):
+    args = Namespace(name='MrMat')
+    cmd = GreetingCommand(args)
+    ret = cmd.execute()
+    captured = capsys.readouterr()
+    assert ret == 0
+    assert captured.out == 'Hello MrMat\n'
