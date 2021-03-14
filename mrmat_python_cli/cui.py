@@ -22,15 +22,15 @@
 #
 
 import sys
-from typing import Optional
+from typing import List, Optional
 from argparse import ArgumentParser, Namespace
 import cli_ui
 
 from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
 
-# Note that the type hint Optional[Namespace] only works with Python 3.9+
-def parse_args(argv: list[str]):
+
+def parse_args(argv: List[str]) -> Optional[Namespace]:
     """
     A dedication function to parse the command line arguments. Makes it a lot easier
     to test CLI parameters.
@@ -61,7 +61,7 @@ def parse_args(argv: list[str]):
     return args
 
 
-def main(argv: list[str]) -> int:
+def main(argv: List[str]) -> int:
     """
     Main entry point for the CLI
 
