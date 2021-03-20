@@ -21,22 +21,26 @@
 #  SOFTWARE.
 #
 
-from abc import ABC, abstractmethod
-from argparse import Namespace
+import asyncio
+import cli_ui
+from mrmat_python_cli.commands import AbstractCommand
 
 
-class AbstractCommand(ABC):
+class LongRunningCommand(AbstractCommand):
 
-    asynchronous: bool = False
-    args: Namespace
+    asynchronous: bool = True
 
-    def __init__(self, args: Namespace):
-        self.args = args
-
-    @abstractmethod
     async def execute_async(self) -> int:
         pass
 
-    @abstractmethod
+    async def long_running(self) -> int:
+        cli_ui.info("I'm going to be a while...")
+        for i in range(0,5):
+            await asyncio.sleep(1)
+            cli_ui.dot()
+        return 0
+
     def execute(self) -> int:
-        pass
+        ret = asyncio.run(self.long_running)
+        cli_ui.dot(last=True)
+        return ret

@@ -26,6 +26,11 @@ from mrmat_python_cli.commands import AbstractCommand
 
 class GreetingCommand(AbstractCommand):
 
+    asynchronous: bool = False
+
+    async def execute_async(self) -> int:
+        pass
+
     def execute(self) -> int:
         print(f'Hello {self.args.name}')
         return 0
