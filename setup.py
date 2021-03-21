@@ -26,7 +26,7 @@ from setuptools import setup
 setup(
     name='mrmat-python-cli',
     version='0.0.1',
-    packages=['mrmat_python_cli'],
+    packages=['mrmat_python_cli', 'mrmat_python_cli.commands'],
     license='MIT',
     author='imfeldma',
     author_email='imfeldma+9jqerw@gmail.com',

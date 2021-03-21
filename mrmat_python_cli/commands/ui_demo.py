@@ -21,7 +21,6 @@
 #  SOFTWARE.
 #
 
-from argparse import Namespace
 import time
 import cli_ui
 
@@ -29,8 +28,6 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class UIDemoCommand(AbstractCommand):
-
-
 
     def execute(self) -> int:
         cli_ui.info_section('Messages')

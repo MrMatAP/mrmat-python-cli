@@ -21,7 +21,46 @@
 #  SOFTWARE.
 #
 
-import pkg_resources
-import mrmat_python_cli.commands
+import time
+from threading import Thread
+from halo import Halo
+import cli_ui
 
-__version__ = pkg_resources.get_distribution('mrmat-python-cli').version
+from mrmat_python_cli.commands import AbstractCommand
+
+
+class LongRunningCommand(AbstractCommand):
+
+    done: bool = False
+
+    def spinner(self) -> None:
+        """
+        Display dots in a separate thread during a long-running operation
+        """
+        while not self.done:
+            cli_ui.dot()
+            time.sleep(0.2)
+
+    @Halo(text="I'm going to take a while", spinner='dots')
+    def execute(self) -> int:
+        """
+        A long-running operation.
+        By default we are using the Halo library to render a spinner. A simple alternative when it is not
+        available:
+            spinner_thread = Thread(name='spinner', target=self.spinner)
+            spinner_thread.start()
+
+            # Do some lengthy code here
+            self.done = True
+
+            cli_ui.dot(last=True)
+        :return: Exit code
+        """
+        for i in range(0, 5):
+            # Do some lengthy work here
+            time.sleep(1)
+        self.done = True
+
+        cli_ui.info("\nDone, 🦄")
+
+        return 0

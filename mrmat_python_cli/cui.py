@@ -27,7 +27,7 @@ from argparse import ArgumentParser, Namespace
 import cli_ui
 
 from mrmat_python_cli import __version__
-from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand
+from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand, LongRunningCommand
 
 
 def parse_args(argv: List[str]) -> Optional[Namespace]:
@@ -54,6 +54,10 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
 
     ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
     ui_demo_parser.set_defaults(cmd=UIDemoCommand)
+
+    long_running_parser = command_parser.add_parser('long-running', help='Long Running Command')
+    long_running_parser.set_defaults(cmd=LongRunningCommand)
+
     args = parser.parse_args(argv)
     if args.command is None:
         parser.print_help()
@@ -61,13 +65,13 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
     return args
 
 
-def main(argv: List[str]) -> int:
+def main(argv=None) -> int:
     """
     Main entry point for the CLI
 
     :return: Exit code
     """
-    args = parse_args(argv)
+    args = parse_args(argv if argv is not None else sys.argv[1:])
     if args is None:
         return 0
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
