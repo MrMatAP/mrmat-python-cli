@@ -21,26 +21,46 @@
 #  SOFTWARE.
 #
 
-import asyncio
+import time
+from threading import Thread
+from halo import Halo
 import cli_ui
+
 from mrmat_python_cli.commands import AbstractCommand
 
 
 class LongRunningCommand(AbstractCommand):
 
-    asynchronous: bool = True
+    done: bool = False
 
-    async def execute_async(self) -> int:
-        pass
-
-    async def long_running(self) -> int:
-        cli_ui.info("I'm going to be a while...")
-        for i in range(0,5):
-            await asyncio.sleep(1)
+    def spinner(self) -> None:
+        """
+        Display dots in a separate thread during a long-running operation
+        """
+        while not self.done:
             cli_ui.dot()
-        return 0
+            time.sleep(0.2)
 
+    @Halo(text="I'm going to take a while", spinner='dots')
     def execute(self) -> int:
-        ret = asyncio.run(self.long_running)
-        cli_ui.dot(last=True)
-        return ret
+        """
+        A long-running operation.
+        By default we are using the Halo library to render a spinner. A simple alternative when it is not
+        available:
+            spinner_thread = Thread(name='spinner', target=self.spinner)
+            spinner_thread.start()
+
+            # Do some lengthy code here
+            self.done = True
+
+            cli_ui.dot(last=True)
+        :return: Exit code
+        """
+        for i in range(0, 5):
+            # Do some lengthy work here
+            time.sleep(1)
+        self.done = True
+
+        cli_ui.info("\nDone, 🦄")
+
+        return 0

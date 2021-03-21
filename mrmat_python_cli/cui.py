@@ -65,13 +65,13 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
     return args
 
 
-def main(argv: List[str]) -> int:
+def main(argv=None) -> int:
     """
     Main entry point for the CLI
 
     :return: Exit code
     """
-    args = parse_args(argv)
+    args = parse_args(argv if argv is not None else sys.argv[1:])
     if args is None:
         return 0
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)

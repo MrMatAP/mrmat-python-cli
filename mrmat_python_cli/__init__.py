@@ -22,5 +22,6 @@
 #
 
 import pkg_resources
+import mrmat_python_cli.commands
 
 __version__ = pkg_resources.get_distribution('mrmat-python-cli').version

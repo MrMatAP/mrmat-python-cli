@@ -27,15 +27,10 @@ from argparse import Namespace
 
 class AbstractCommand(ABC):
 
-    asynchronous: bool = False
     args: Namespace
 
     def __init__(self, args: Namespace):
         self.args = args
-
-    @abstractmethod
-    async def execute_async(self) -> int:
-        pass
 
     @abstractmethod
     def execute(self) -> int:
