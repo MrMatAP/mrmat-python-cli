@@ -1,5 +1,6 @@
 # Build/Test time requirements
 
+pylint==2.8.3       # GPL-2.0-or-later
 flake8~=3.8.4       # MIT
 pytest~=6.2.2       # MIT
 pytest-cov~=2.11.1  # MIT
