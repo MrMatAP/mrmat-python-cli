@@ -75,7 +75,7 @@ jobs:
     - name: Test
       run: |
         flake8 --statistics
-        pylint mrmat_python_api_flask
+        pylint mrmat_python_cli
         python ./setup.py install
         python -m pytest
 
