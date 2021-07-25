@@ -21,11 +21,12 @@
 #  SOFTWARE.
 #
 
+import os
 from setuptools import setup
 
 setup(
     name='mrmat-python-cli',
-    version='0.0.1',
+    version=os.environ['MRMAT_VERSION'] if 'MRMAT_VERSION' in os.environ else '0.0.0.dev0',
     packages=['mrmat_python_cli', 'mrmat_python_cli.commands'],
     license='MIT',
     author='imfeldma',
@@ -36,7 +37,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'mrmat-python-cli-cui = mrmat_python_cli.cui:main'
+            'mrmat-python-cli = mrmat_python_cli.cui:main'
         ]
     }
 )

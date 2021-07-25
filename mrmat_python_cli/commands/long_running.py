@@ -21,8 +21,10 @@
 #  SOFTWARE.
 #
 
+"""A long running command class
+"""
+
 import time
-from threading import Thread
 from halo import Halo
 import cli_ui
 
@@ -30,6 +32,9 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class LongRunningCommand(AbstractCommand):
+
+    """A long running command class
+    """
 
     done: bool = False
 
@@ -56,11 +61,11 @@ class LongRunningCommand(AbstractCommand):
             cli_ui.dot(last=True)
         :return: Exit code
         """
-        for i in range(0, 5):
+        for _ in range(0, 5):
             # Do some lengthy work here
             time.sleep(1)
         self.done = True
 
-        cli_ui.info("\nDone, 🦄")
+        cli_ui.info('\nDone, 🦄')
 
         return 0

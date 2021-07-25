@@ -1,4 +1,4 @@
 # Runtime requirements
 
-cli-ui==0.12        # BSD 3-Clause
-halo                # MIT
+cli-ui~=0.12        # BSD 3-Clause
+halo~=0.0.31        # MIT

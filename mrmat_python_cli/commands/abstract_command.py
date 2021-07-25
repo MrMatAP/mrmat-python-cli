@@ -21,6 +21,9 @@
 #  SOFTWARE.
 #
 
+"""Declare an abstract base class for command implementations
+"""
+
 from abc import ABC, abstractmethod
 from argparse import Namespace
 
