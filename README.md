@@ -18,3 +18,4 @@ version and whether a release is built is consequently controlled exlusively by 
 
 ## How to run this
 
+Install as usual, then execute `mrmat-python-cli -h`.
