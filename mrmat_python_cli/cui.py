@@ -21,6 +21,9 @@
 #  SOFTWARE.
 #
 
+"""Main entry point for the Python CLI implementation
+"""
+
 import sys
 from typing import List, Optional
 from argparse import ArgumentParser, Namespace

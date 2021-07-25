@@ -21,6 +21,9 @@
 #  SOFTWARE.
 #
 
+"""Implementation of the UIDemo Command
+"""
+
 import time
 import cli_ui
 
@@ -28,6 +31,9 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class UIDemoCommand(AbstractCommand):
+
+    """Implementation of the UIDemo Command
+    """
 
     def execute(self) -> int:
         cli_ui.info_section('Messages')
@@ -41,10 +47,10 @@ class UIDemoCommand(AbstractCommand):
         cli_ui.debug(cli_ui.purple, 'This is a debug message')
 
         cli_ui.info_section('Formatting')
-        cli_ui.info("one", "\n",
-                    cli_ui.tabs(1), "two", "\n",
-                    cli_ui.tabs(2), "three", "\n",
-                    sep="")
+        cli_ui.info('one', '\n',
+                    cli_ui.tabs(1), 'two', '\n',
+                    cli_ui.tabs(2), 'three', '\n',
+                    sep='')
 
         cli_ui.info_section('Table')
         headers = ['foo', 'bar', 'baz']
@@ -68,6 +74,6 @@ class UIDemoCommand(AbstractCommand):
         cli_ui.info_section('Percent Progress')
         for i in range(0, 5):
             time.sleep(0.2)
-            cli_ui.info_progress("Processing", i, 5)
+            cli_ui.info_progress('Processing', i, 5)
 
         return 0

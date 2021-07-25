@@ -21,7 +21,10 @@
 #  SOFTWARE.
 #
 
+"""Main import entry point for the Python CLI implementation
+"""
+
 import pkg_resources
-import mrmat_python_cli.commands
+import mrmat_python_cli.commands        # noqa: F401
 
 __version__ = pkg_resources.get_distribution('mrmat-python-cli').version
