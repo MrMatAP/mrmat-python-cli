@@ -24,18 +24,23 @@
 """Main entry point for the Python CLI implementation
 """
 
+import os
 import sys
+from configparser import ConfigParser
 from typing import List, Optional
 from argparse import ArgumentParser, Namespace
 import cli_ui
 
 from mrmat_python_cli import __version__
-from mrmat_python_cli.commands import GreetingCommand, UIDemoCommand, LongRunningCommand
+from mrmat_python_cli.commands import (
+    GreetingCommand,
+    UIDemoCommand,
+    LongRunningCommand,
+    ConfigShowCommand)
 
 
 def parse_args(argv: List[str]) -> Optional[Namespace]:
-    """
-    A dedication function to parse the command line arguments. Makes it a lot easier
+    """A dedicated function to parse the command line arguments. Makes it a lot easier
     to test CLI parameters.
 
     This will exit with code 0 and show help if no command is chosen.
@@ -46,6 +51,10 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
     parser = ArgumentParser(description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
     parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
+    parser.add_argument('-c', '--config',
+                        dest='config',
+                        required=False,
+                        default=os.path.expanduser(os.path.join('~', '.mrmat-python-cli')))
     command_parser = parser.add_subparsers(help='Commands', dest='command')
     greeting_parser = command_parser.add_parser('greeting', help='Execute the greeting command')
     greeting_parser.add_argument('-n', '--name',
@@ -60,6 +69,9 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
 
     long_running_parser = command_parser.add_parser('long-running', help='Long Running Command')
     long_running_parser.set_defaults(cmd=LongRunningCommand)
+
+    config_show_parser = command_parser.add_parser('config-show', help='Show configuration')
+    config_show_parser.set_defaults(cmd=ConfigShowCommand)
 
     args = parser.parse_args(argv)
     if args.command is None:
@@ -77,13 +89,19 @@ def main(argv=None) -> int:
     args = parse_args(argv if argv is not None else sys.argv[1:])
     if args is None:
         return 0
+    config = ConfigParser(strict=True, defaults={'foo': 'bar'})
+    if os.path.exists(args.config):
+        config.read(args.config)
+    else:
+        with open(args.config, 'w+') as c:
+            config.write(c)
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
     #
     # Execute
     # Show help if no command was selected
 
-    cmd = args.cmd(args)
+    cmd = args.cmd(args, config)
     return cmd.execute()
 
 

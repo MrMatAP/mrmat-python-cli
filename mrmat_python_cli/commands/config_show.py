@@ -21,17 +21,22 @@
 #  SOFTWARE.
 #
 
-"""Implementation of the GreetingCommand
+"""A command to show current configuration
 """
+
+import cli_ui
 
 from mrmat_python_cli.commands import AbstractCommand
 
 
-class GreetingCommand(AbstractCommand):
-
-    """Greeting command class
-    """
+class ConfigShowCommand(AbstractCommand):
 
     def execute(self) -> int:
-        print(f'Hello {self._args.name}')
+        sections = self._config.sections()
+        sections.append(self._config.default_section)
+        for section in sections:
+            cli_ui.info_section(section)
+            for item in self._config[section]:
+                cli_ui.info(f'{item}: {self._config.get(section, item)}')
         return 0
+
