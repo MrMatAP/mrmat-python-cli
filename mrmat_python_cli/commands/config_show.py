@@ -39,4 +39,3 @@ class ConfigShowCommand(AbstractCommand):
             for item in self._config[section]:
                 cli_ui.info(f'{item}: {self._config.get(section, item)}')
         return 0
-
