@@ -33,6 +33,9 @@ from configparser import ConfigParser
 
 class AbstractCommand(ABC):
 
+    """Declare an abstract base command class
+    """
+
     _args: Namespace
     _config: ConfigParser
 
@@ -42,4 +45,9 @@ class AbstractCommand(ABC):
 
     @abstractmethod
     def execute(self) -> int:
+        """Execute the command
+
+        Returns:
+            An exit code, 0 when successful. Non-zero otherwise
+        """
         pass
