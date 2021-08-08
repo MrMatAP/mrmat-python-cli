@@ -28,3 +28,4 @@ from .abstract_command import AbstractCommand       # noqa: F401
 from .greeting import GreetingCommand               # noqa: F401
 from .ui_demo import UIDemoCommand                  # noqa: F401
 from .long_running import LongRunningCommand        # noqa: F401
+from .config_show import ConfigShowCommand          # noqa: F401

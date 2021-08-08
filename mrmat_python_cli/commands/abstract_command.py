@@ -25,16 +25,29 @@
 """
 
 from abc import ABC, abstractmethod
+from typing import Optional
+
 from argparse import Namespace
+from configparser import ConfigParser
 
 
 class AbstractCommand(ABC):
 
-    args: Namespace
+    """Declare an abstract base command class
+    """
 
-    def __init__(self, args: Namespace):
-        self.args = args
+    _args: Namespace
+    _config: ConfigParser
+
+    def __init__(self, args: Namespace, config: Optional[ConfigParser] = None):
+        self._args = args
+        self._config = config
 
     @abstractmethod
     def execute(self) -> int:
+        """Execute the command
+
+        Returns:
+            An exit code, 0 when successful. Non-zero otherwise
+        """
         pass

@@ -29,7 +29,7 @@ setup(
     version=os.environ['MRMAT_VERSION'] if 'MRMAT_VERSION' in os.environ else '0.0.0.dev0',
     packages=['mrmat_python_cli', 'mrmat_python_cli.commands'],
     license='MIT',
-    author='imfeldma',
+    author='Mathieu Imfeld',
     author_email='imfeldma+9jqerw@gmail.com',
     description='Boilerplate for a Python CLI',
 
