@@ -19,3 +19,12 @@ version and whether a release is built is consequently controlled exlusively by 
 ## How to run this
 
 Install as usual, then execute `mrmat-python-cli -h`.
+
+## Limitations
+
+### Nested Subcommands
+
+It would be desirable to have the ability for nested subcommands such as demonstrated by the Azure CLI
+for instance. It is, however, not easily possible to implement such nested commands using the native
+argparse without manually modifying argv. An alternative might be [arghandler](https://github.com/druths/arghandler)
+but that does not appear to be very maintained.
