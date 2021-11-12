@@ -101,7 +101,7 @@ def main(argv=None) -> int:
     if os.path.exists(args.config):
         config.read(args.config)
     else:
-        with open(args.config, 'w+') as c:
+        with open(args.config, 'w+', encoding='UTF-8') as c:
             config.write(c)
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
