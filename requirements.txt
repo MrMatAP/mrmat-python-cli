@@ -9,6 +9,7 @@ halo~=0.0.31        # MIT
 
 # Build/Test requirements
 
+build~=0.7.0        # MIT
 pylint==2.8.3       # GPL-2.0-or-later
 flake8~=3.8.4       # MIT
 pytest~=6.2.2       # MIT
