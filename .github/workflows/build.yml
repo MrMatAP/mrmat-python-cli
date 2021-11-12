@@ -65,19 +65,13 @@ jobs:
         path: ~/.local
         key: ${{ runner.os }}
 
-    - name: Install dependencies
+    - name: Build
       run: |
-        python -m pip install --upgrade pip
-        pip install --user wheel
-        pip install --user -r requirements.txt
-        pip install --user -r test-requirements.txt
-
-    - name: Test
-      run: |
+        pip install --user build flake8 pylint pytest-cov
         flake8 --statistics
-        pylint mrmat_python_cli
-        python ./setup.py install
-        python -m pytest
+        pylint ${GITHUB_WORKSPACE}/mrmat_python_cli
+        PYTHONPATH=${GITHUB_WORKSPACE} python -m pytest --cov=mrmat_python_cli
+        PYTHONPATH=${GITHUB_WORKSPACE} python -m build
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
