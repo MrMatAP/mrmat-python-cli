@@ -4,8 +4,7 @@
 
 # Runtime requirements
 
-cli-ui~=0.12        # BSD 3-Clause
-halo~=0.0.31        # MIT
+rich~=10.14.0       # MIT
 
 # Build/Test requirements
 
@@ -13,3 +12,4 @@ build~=0.7.0        # MIT
 pylint==2.8.3       # GPL-2.0-or-later
 pytest~=6.2.2       # MIT
 pytest-cov~=2.11.1  # MIT
+

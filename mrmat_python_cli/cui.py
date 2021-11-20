@@ -21,7 +21,8 @@
 #  SOFTWARE.
 #
 
-"""Main entry point for the Python CLI implementation
+"""
+Main entry point for the Python CLI implementation
 """
 
 import os
@@ -29,9 +30,8 @@ import sys
 from configparser import ConfigParser
 from typing import List, Optional
 from argparse import ArgumentParser, Namespace
-import cli_ui
 
-from mrmat_python_cli import __version__
+from mrmat_python_cli import __version__, log
 from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
@@ -68,16 +68,13 @@ def parse_args(argv: List[str]) -> Optional[Namespace]:
                                  required=False,
                                  help='Name to greet (defaults to "World"')
     greeting_parser.set_defaults(cmd=GreetingCommand)
-    ui_demo_parser = command_parser.add_parser('ui-demo',
-                                               help='UI Demo')
+    ui_demo_parser = command_parser.add_parser('ui-demo', help='UI Demo')
     ui_demo_parser.set_defaults(cmd=UIDemoCommand)
 
-    long_running_parser = command_parser.add_parser('long-running',
-                                                    help='Long Running Command')
+    long_running_parser = command_parser.add_parser('long-running', help='Long Running Command')
     long_running_parser.set_defaults(cmd=LongRunningCommand)
 
-    config_show_parser = command_parser.add_parser('config-show',
-                                                   help='Show the current configuration')
+    config_show_parser = command_parser.add_parser('config-show', help='Show the current configuration')
     config_show_parser.set_defaults(cmd=ConfigShowCommand)
 
     args = parser.parse_args(argv)
@@ -97,13 +94,18 @@ def main(argv=None) -> int:
     args = parse_args(argv if argv is not None else sys.argv[1:])
     if args is None:
         return 0
+
+    if args.quiet:
+        log.setLevel('ERROR')
+    if args.debug:
+        log.setLevel('DEBUG')
+
     config = ConfigParser(strict=True, defaults={'foo': 'bar'})
     if os.path.exists(args.config):
         config.read(args.config)
     else:
         with open(args.config, 'w+', encoding='UTF-8') as c:
             config.write(c)
-    cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
     #
     # Execute the command passed in via the parser default

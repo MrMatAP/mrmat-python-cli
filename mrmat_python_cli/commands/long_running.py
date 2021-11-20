@@ -25,47 +25,36 @@
 """
 
 import time
-from halo import Halo
-import cli_ui
+
+from rich.progress import track
 
 from mrmat_python_cli.commands import AbstractCommand
+from mrmat_python_cli import log
 
 
 class LongRunningCommand(AbstractCommand):
 
-    """A long running command class
+    """
+    A long running command class
     """
 
     done: bool = False
 
-    def spinner(self) -> None:
-        """
-        Display dots in a separate thread during a long-running operation
-        """
-        while not self.done:
-            cli_ui.dot()
-            time.sleep(0.2)
-
-    @Halo(text="I'm going to take a while", spinner='dots')
     def execute(self) -> int:
         """
-        A long-running operation.
-        By default we are using the Halo library to render a spinner. A simple alternative when it is not
-        available:
-            spinner_thread = Thread(name='spinner', target=self.spinner)
-            spinner_thread.start()
+        Execute a long running operation, along with a spinner
 
-            # Do some lengthy code here
-            self.done = True
-
-            cli_ui.dot(last=True)
-        :return: Exit code
+        Returns:
+            The operation exit code
         """
-        for _ in range(0, 5):
-            # Do some lengthy work here
-            time.sleep(1)
-        self.done = True
+        try:
+            for _ in track(range(10), description='Processing...'):
+                time.sleep(1)
+        except KeyboardInterrupt:
+            log.info('Cancelled')
+            return 1
 
-        cli_ui.info('\nDone, 🦄')
+        self.done = True
+        log.info('Done')
 
         return 0

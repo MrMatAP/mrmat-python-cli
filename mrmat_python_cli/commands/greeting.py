@@ -21,17 +21,26 @@
 #  SOFTWARE.
 #
 
-"""Implementation of the GreetingCommand
+"""
+Implementation of the GreetingCommand
 """
 
+from mrmat_python_cli import console
 from mrmat_python_cli.commands import AbstractCommand
 
 
 class GreetingCommand(AbstractCommand):
 
-    """Greeting command class
+    """
+    Greeting command class
     """
 
     def execute(self) -> int:
-        print(f'Hello {self._args.name}')
+        """
+        Execute a greeting
+
+        Returns:
+            Exit code
+        """
+        console.print(f'Hello {self._args.name}')
         return 0
