@@ -32,6 +32,9 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class ConfigShowCommand(AbstractCommand):
+    """
+    Implementation of the config-show command
+    """
 
     def execute(self) -> int:
         sections = self._config.sections()
