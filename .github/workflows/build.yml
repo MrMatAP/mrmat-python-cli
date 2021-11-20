@@ -70,7 +70,7 @@ jobs:
         pip install -r requirements.txt
         pylint ${GITHUB_WORKSPACE}/mrmat_python_cli
         PYTHONPATH=${GITHUB_WORKSPACE} python -m pytest --cov=mrmat_python_cli
-        PYTHONPATH=${GITHUB_WORKSPACE} python -m build
+        PYTHONPATH=${GITHUB_WORKSPACE} python -m build --wheel -n
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
