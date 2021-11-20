@@ -9,7 +9,7 @@ name: Build
 env:
   MAJOR: 0
   MINOR: 0
-  PYTHON_VERSION: 3.9.6
+  PYTHON_VERSION: 3.10
 
 #
 # Establish when the workflow is run
