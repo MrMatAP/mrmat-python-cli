@@ -28,7 +28,7 @@ def test_help(capsys):
     ret = main([])
     captured = capsys.readouterr()
     assert ret == 0
-    assert 'optional arguments' in captured.out
+    assert 'positional arguments' in captured.out
 
 
 def test_greeting(capsys):
