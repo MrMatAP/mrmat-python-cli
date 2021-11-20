@@ -44,7 +44,7 @@ jobs:
     - name: Calculate Build Context
       run: |
         MRMAT_VERSION="${MAJOR}.${MINOR}.${GITHUB_RUN_NUMBER}"
-        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' ]; then
+        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' && GITHUB_BASE_REF == 'main']; then
           MRMAT_IS_RELEASE=true
           echo "::warning ::Building release ${MRMAT_VERSION}"
           echo "MRMAT_IS_RELEASE=true" >> $GITHUB_ENV
@@ -83,7 +83,7 @@ jobs:
 
     - name: Conditional Release
       uses: marvinpinto/action-automatic-releases@latest
-      if: github.event.pull_request.merged == true
+      if: (github.event.pull_request.merged == true && github.base_ref == 'main')
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "${{ env.MRMAT_VERSION }}"
