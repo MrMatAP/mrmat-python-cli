@@ -22,22 +22,5 @@
 #
 
 import os
-from setuptools import setup
 
-setup(
-    name='mrmat-python-cli',
-    version=os.environ['MRMAT_VERSION'] if 'MRMAT_VERSION' in os.environ else '0.0.0.dev0',
-    packages=['mrmat_python_cli', 'mrmat_python_cli.commands'],
-    license='MIT',
-    author='Mathieu Imfeld',
-    author_email='imfeldma+9jqerw@gmail.com',
-    description='Boilerplate for a Python CLI',
-
-    setup_requires=['flake8'],
-
-    entry_points={
-        'console_scripts': [
-            'mrmat-python-cli = mrmat_python_cli.cui:main'
-        ]
-    }
-)
+version = os.environ['MRMAT_VERSION'] if 'MRMAT_VERSION' in os.environ else '0.0.0.dev0'

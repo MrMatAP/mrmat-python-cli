@@ -21,21 +21,28 @@
 #  SOFTWARE.
 #
 
-"""A command to show current configuration
+"""
+A command to show current configuration
 """
 
-import cli_ui
+from rich.tree import Tree
 
+from mrmat_python_cli import console
 from mrmat_python_cli.commands import AbstractCommand
 
 
 class ConfigShowCommand(AbstractCommand):
+    """
+    Implementation of the config-show command
+    """
 
     def execute(self) -> int:
         sections = self._config.sections()
         sections.append(self._config.default_section)
+        tree = Tree('Configuration')
         for section in sections:
-            cli_ui.info_section(section)
+            branch = tree.add(f'[bold]{section}')
             for item in self._config[section]:
-                cli_ui.info(f'{item}: {self._config.get(section, item)}')
+                branch.add(f'{item}: {self._config.get(section, item)}')
+        console.print(tree)
         return 0

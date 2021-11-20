@@ -1,4 +1,16 @@
+#
+# This file is for convenience only, to quickly set up what is necessary to develop in some IDE
+# The real runtime requirements are held in setup.cfg. BE SURE to update both files.
+
 # Runtime requirements
 
-cli-ui~=0.12        # BSD 3-Clause
-halo~=0.0.31        # MIT
+rich~=10.14.0       # MIT
+
+# Build/Test requirements
+
+build~=0.7.0        # MIT
+wheel~=0.36.2       # MIT
+pylint==2.8.3       # GPL-2.0-or-later
+pytest~=6.2.2       # MIT
+pytest-cov~=2.11.1  # MIT
+

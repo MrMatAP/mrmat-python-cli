@@ -21,7 +21,8 @@
 #  SOFTWARE.
 #
 
-"""Main import entry point for command implementations
+"""
+Main import entry point for command implementations
 """
 
 from .abstract_command import AbstractCommand       # noqa: F401

@@ -24,7 +24,19 @@
 """Main import entry point for the Python CLI implementation
 """
 
-import pkg_resources
-import mrmat_python_cli.commands        # noqa: F401
+import logging
+import importlib.metadata
+from rich.console import Console
+from rich.logging import RichHandler
 
-__version__ = pkg_resources.get_distribution('mrmat-python-cli').version
+try:
+    __version__ = importlib.metadata.version('mrmat-python-cli')
+except importlib.metadata.PackageNotFoundError:
+    # You have not yet installed this as a package, likely because you're hacking on it in some IDE
+    __version__ = '0.0.0.dev0'
+
+logging.basicConfig(level='INFO', handlers=[RichHandler(rich_tracebacks=True)])
+log = logging.getLogger(__name__)
+console = Console()
+
+import mrmat_python_cli.commands    # pylint: disable=wrong-import-position
