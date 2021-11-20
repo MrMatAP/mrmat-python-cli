@@ -68,7 +68,6 @@ jobs:
     - name: Build
       run: |
         pip install -r requirements.txt
-        flake8 --statistics
         pylint ${GITHUB_WORKSPACE}/mrmat_python_cli
         PYTHONPATH=${GITHUB_WORKSPACE} python -m pytest --cov=mrmat_python_cli
         PYTHONPATH=${GITHUB_WORKSPACE} python -m build
