@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,41 @@
 #
 
 """
-A command to show current configuration
+Implementation of resource commands
 """
 
-from rich.tree import Tree
+import argparse
+from configparser import ConfigParser
 
-from mrmat_python_cli import console
-from mrmat_python_cli.commands import AbstractCommand
+from mrmat_python_cli.commands import AbstractResourceCommands
 
 
-class ConfigShowCommand(AbstractCommand):
+class ResourceCommands(AbstractResourceCommands):
     """
-    Implementation of the config-show command
+    Implementation of resource commands
     """
 
-    def execute(self) -> int:
-        sections = self._config.sections()
-        sections.append(self._config.default_section)
-        tree = Tree('Configuration')
-        for section in sections:
-            branch = tree.add(f'[bold]{section}')
-            for item in self._config[section]:
-                branch.add(f'{item}: {self._config.get(section, item)}')
-        console.print(tree)
+    @staticmethod
+    def list(args: argparse.Namespace, config: ConfigParser) -> int:
+        print('I would return a list of resources')
+        return 0
+
+    @staticmethod
+    def get(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would return resource with id {args.id}')
+        return 0
+
+    @staticmethod
+    def create(args: argparse.Namespace, config: ConfigParser) -> int:
+        print('I would create a resource')
+        return 0
+
+    @staticmethod
+    def modify(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would modify a resource with id {args.id}')
+        return 0
+
+    @staticmethod
+    def remove(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would remove a resource with id {args.id}')
         return 0

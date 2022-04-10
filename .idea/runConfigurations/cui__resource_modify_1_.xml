@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cui (long-running)" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="cui (resource modify 1)" type="PythonConfigurationType" factoryName="Python">
     <module name="mrmat-python-cli" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -13,9 +13,9 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="mrmat_python_cli.cui" />
-    <option name="PARAMETERS" value="long-running" />
+    <option name="PARAMETERS" value="resource modify --id 1" />
     <option name="SHOW_COMMAND_LINE" value="false" />
-    <option name="EMULATE_TERMINAL" value="true" />
+    <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="true" />
     <option name="REDIRECT_INPUT" value="false" />
     <option name="INPUT_FILE" value="" />
