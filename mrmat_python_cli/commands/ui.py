@@ -28,6 +28,7 @@ Implementation of the UIDemo Command
 import time
 import cli_ui
 
+from mrmat_python_cli import console, log
 from mrmat_python_cli.commands import AbstractCommand
 
 
@@ -37,44 +38,60 @@ class UIDemoCommand(AbstractCommand):
     """
 
     def __call__(self) -> int:
-        cli_ui.info_section('Messages')
-        cli_ui.info('This is an info message')
-        cli_ui.info_1('This is an important informative message')
-        cli_ui.info_2('This is a not so important informative message')
-        cli_ui.info_3('This is an even less important informative message')
-        cli_ui.warning('This is a warning message (on stderr)')
-        cli_ui.error('This is an error message (on stderr)')
-        # cli_ui.fatal('This is a fatal message (on stderr, exits)')
-        cli_ui.debug(cli_ui.purple, 'This is a debug message')
+        console.rule('[bold] Messages')
+        log.info('This is an info message')
+        log.warning('This is a warning message (on stderr)')
+        log.error('This is an error message (on stderr)')
+        # log.fatal('This is a fatal message (on stderr, exits)')
+        log.debug('This is a debug message')
+        try:
+            _ = 7 / 0
+        except ZeroDivisionError:
+            log.exception("You're doing something silly")
 
-        cli_ui.info_section('Formatting')
-        cli_ui.info('one', '\n',
-                    cli_ui.tabs(1), 'two', '\n',
-                    cli_ui.tabs(2), 'three', '\n',
-                    sep='')
+        console.rule('[bold] Formatting')
+        console.print('This is [bold blue on white]bold blue on white[/]. This is [bold]bold[/bold]. '
+                      'Visit this [link=https://www.google.com]link[/link]! '
+                      'Emojis are also possible: :red_heart:')
 
-        cli_ui.info_section('Table')
-        headers = ['foo', 'bar', 'baz']
-        data = [
-            [(cli_ui.bold, '1'), (cli_ui.yellow, '2'), (cli_ui.purple, '3')],
-            ['one', 'two', (cli_ui.cross, '')]
-        ]
-        cli_ui.info_table(data, headers=headers)
+        console.rule('[bold] Tables')
+        table = Table(title='Table Demo', box=box.SIMPLE_HEAVY)
+        table.add_column('foo')
+        table.add_column('bar')
+        table.add_column('baz')
+        table.add_row('1', '2', '3')
+        table.add_row('fee', 'fie', 'foe')
+        table.add_row('uno', 'dos', 'tres')
+        console.print(table)
 
-        cli_ui.info_section('Simple Progress')
-        for i in range(0, 5):  # NOSONAR
-            time.sleep(0.2)
-            cli_ui.dot()
-        cli_ui.dot(last=True)
+        console.rule('[bold] Trees')
+        tree = Tree('Tree Demo')
+        foo_tree = Tree('foo')
+        _ = [foo_tree.add(e) for e in ['1', '2', '3']]
+        tree.add(foo_tree)
+        tree.add('bar').add('fee').add('fie').add('fum')
+        tree.add('baz')
+        console.print(tree)
 
-        cli_ui.info_section('Labelled Progress')
-        for i in range(0, 5):
-            time.sleep(0.2)
-            cli_ui.info_count(i, 5, 'Processing...')
+        console.rule('[bold] Labelled Progress')
+        try:
+            with Progress() as progress:
+                task1 = progress.add_task('[red]Downloading...', total=100)
+                task2 = progress.add_task('[green]Processing...', total=100)
+                task3 = progress.add_task('[cyan]Cooking...', total=100)
+                while not progress.finished:
+                    progress.update(task1, advance=0.5)
+                    progress.update(task2, advance=0.3)
+                    progress.update(task3, advance=0.9)
+                    time.sleep(0.02)
+        except KeyboardInterrupt:
+            log.info('Cancelled job')
 
-        cli_ui.info_section('Percent Progress')
-        for i in range(0, 5):
-            time.sleep(0.2)
-            cli_ui.info_progress('Processing', i, 5)
+        console.rule('[bold] Tracking progress')
+        try:
+            for _ in track(range(30), description='Processing...'):
+                time.sleep(0.2)
+        except KeyboardInterrupt:
+            log.info('Cancelled job')
 
         return 0

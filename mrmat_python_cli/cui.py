@@ -30,9 +30,8 @@ import typing
 import argparse
 from configparser import ConfigParser
 import inspect
-import cli_ui
 
-from mrmat_python_cli import __version__
+from mrmat_python_cli import __version__, log
 from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
@@ -109,7 +108,6 @@ def main(args: typing.List) -> int:
     config = ConfigParser(strict=True, defaults=dict(foo='bar'))
     if args.config:
         config.read(args.config)
-    cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
     if hasattr(args, 'cmd'):
         # This may be simplified to just args.cmd(args, config) if you don't use command classes

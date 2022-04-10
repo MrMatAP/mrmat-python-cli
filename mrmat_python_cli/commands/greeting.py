@@ -21,9 +21,11 @@
 #  SOFTWARE.
 #
 
-"""Implementation of the GreetingCommand
+"""
+Implementation of the GreetingCommand
 """
 
+from mrmat_python_cli import console
 from mrmat_python_cli.commands import AbstractCommand
 
 
@@ -34,5 +36,5 @@ class GreetingCommand(AbstractCommand):
     """
 
     def __call__(self) -> int:
-        print(f'Hello {self._args.name}')
+        console.print(f'Hello {self._args.name}')
         return 0
