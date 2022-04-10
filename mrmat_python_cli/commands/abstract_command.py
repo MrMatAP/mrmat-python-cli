@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,8 @@ from configparser import ConfigParser
 
 class AbstractCommand(ABC):
 
-    """Declare an abstract base command class
+    """
+    Declare an abstract base command class
     """
 
     _args: Namespace
@@ -44,8 +45,9 @@ class AbstractCommand(ABC):
         self._config = config
 
     @abstractmethod
-    def execute(self) -> int:
-        """Execute the command
+    def __call__(self) -> int:
+        """
+        Execute the command
 
         Returns:
             An exit code, 0 when successful. Non-zero otherwise

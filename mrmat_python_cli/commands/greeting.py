@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -32,15 +32,9 @@ from mrmat_python_cli.commands import AbstractCommand
 class GreetingCommand(AbstractCommand):
 
     """
-    Greeting command class
+    Implementation of the greeting command
     """
 
-    def execute(self) -> int:
-        """
-        Execute a greeting
-
-        Returns:
-            Exit code
-        """
+    def __call__(self) -> int:
         console.print(f'Hello {self._args.name}')
         return 0

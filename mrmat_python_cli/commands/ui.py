@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,27 @@
 #  SOFTWARE.
 #
 
-"""Implementation of the UIDemo Command
+"""
+Implementation of the UIDemo Command
 """
 
 import time
-from rich.table import Table, box
-from rich.tree import Tree
+
+from rich import box
 from rich.progress import Progress, track
+from rich.table import Table
+from rich.tree import Tree
 
 from mrmat_python_cli import console, log
 from mrmat_python_cli.commands import AbstractCommand
 
 
 class UIDemoCommand(AbstractCommand):
-
-    """Implementation of the UIDemo Command
+    """
+    Implementation of the UIDemo Command
     """
 
-    def execute(self) -> int:
+    def __call__(self) -> int:
         console.rule('[bold] Messages')
         log.info('This is an info message')
         log.warning('This is a warning message (on stderr)')

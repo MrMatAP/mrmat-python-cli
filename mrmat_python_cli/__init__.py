@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -38,5 +38,3 @@ except importlib.metadata.PackageNotFoundError:
 logging.basicConfig(level='INFO', handlers=[RichHandler(rich_tracebacks=True)])
 log = logging.getLogger(__name__)
 console = Console()
-
-import mrmat_python_cli.commands    # pylint: disable=wrong-import-position

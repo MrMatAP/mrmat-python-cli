@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,10 @@
 Main import entry point for command implementations
 """
 
-from .abstract_command import AbstractCommand       # noqa: F401
-from .greeting import GreetingCommand               # noqa: F401
-from .ui_demo import UIDemoCommand                  # noqa: F401
-from .long_running import LongRunningCommand        # noqa: F401
-from .config_show import ConfigShowCommand          # noqa: F401
+from .abstract_command import AbstractCommand                       # noqa: F401
+from .greeting import GreetingCommand                               # noqa: F401
+from .ui import UIDemoCommand                                       # noqa: F401
+from .long import LongRunningCommand                                # noqa: F401
+
+from .abstract_resource_commands import AbstractResourceCommands    # noqa: F401
+from .resource import ResourceCommands                              # noqa: F401

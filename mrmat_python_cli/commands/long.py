@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2021 Mathieu Imfeld
+#  Copyright (c) 2022 Mathieu Imfeld
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,39 @@
 #  SOFTWARE.
 #
 
-from argparse import Namespace
+"""A long running command class
+"""
 
-from mrmat_python_cli.commands import GreetingCommand
+import time
+
+from rich.progress import track
+
+from mrmat_python_cli.commands import AbstractCommand
+from mrmat_python_cli import log
 
 
-def test_greeting(capsys):
-    args = Namespace(name='MrMat')
-    cmd = GreetingCommand(args)
-    ret = cmd.execute()
-    captured = capsys.readouterr()
-    assert ret == 0
-    assert captured.out == 'Hello MrMat\n'
+class LongRunningCommand(AbstractCommand):
+    """
+    Implementation of a long-running command
+    """
+
+    done: bool = False
+
+    def __call__(self) -> int:
+        """
+        Execute a long running operation, along with a spinner
+
+        Returns:
+            The operation exit code
+        """
+        try:
+            for _ in track(range(10), description='Processing...'):
+                time.sleep(1)
+        except KeyboardInterrupt:
+            log.info('Cancelled')
+            return 1
+
+        self.done = True
+        log.info('Done')
+
+        return 0
