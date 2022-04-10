@@ -38,5 +38,3 @@ except importlib.metadata.PackageNotFoundError:
 logging.basicConfig(level='INFO', handlers=[RichHandler(rich_tracebacks=True)])
 log = logging.getLogger(__name__)
 console = Console()
-
-import mrmat_python_cli.commands    # pylint: disable=wrong-import-position

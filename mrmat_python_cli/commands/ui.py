@@ -26,7 +26,11 @@ Implementation of the UIDemo Command
 """
 
 import time
-import cli_ui
+
+from rich import box
+from rich.progress import Progress, track
+from rich.table import Table
+from rich.tree import Tree
 
 from mrmat_python_cli import console, log
 from mrmat_python_cli.commands import AbstractCommand

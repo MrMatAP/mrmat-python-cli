@@ -47,20 +47,18 @@ def test_greeting(capsys):
 
 def test_long(capsys):
     ret = main(['long'])
-    #captured = capsys.readouterr()
+    captured = capsys.readouterr()
     assert ret == 0
-    # TODO: cli_ui output doesn't seem to be captured
-    #assert 'I\'m going to take a while' in captured.out
-    #assert 'Done' in captured.out
+    assert 'Processing...' in captured.out
+    assert ' 100% ' in captured.out
 
 
 def test_ui(capsys):
     ret = main(['ui'])
-    #captured = capsys.readouterr()
+    captured = capsys.readouterr()
     assert ret == 0
-    # TODO: cli_ui output doesn't seem to be captured
-    #assert 'Labelled Progress' in captured.out
-    #assert 'This is a warning message' in captured.err
+    assert 'Labelled Progress' in captured.out
+    assert 'This is bold blue on white' in captured.out
 
 
 def test_resource(capsys):
