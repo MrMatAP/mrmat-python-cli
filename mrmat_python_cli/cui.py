@@ -31,7 +31,7 @@ import argparse
 from configparser import ConfigParser
 import inspect
 
-from mrmat_python_cli import __version__, log
+from mrmat_python_cli import __version__
 from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
