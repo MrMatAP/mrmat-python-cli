@@ -21,7 +21,8 @@
 #  SOFTWARE.
 #
 
-"""Implementation of the UIDemo Command
+"""
+Implementation of the UIDemo Command
 """
 
 import time
@@ -31,11 +32,11 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class UIDemoCommand(AbstractCommand):
-
-    """Implementation of the UIDemo Command
+    """
+    Implementation of the UIDemo Command
     """
 
-    def execute(self) -> int:
+    def __call__(self) -> int:
         cli_ui.info_section('Messages')
         cli_ui.info('This is an info message')
         cli_ui.info_1('This is an important informative message')

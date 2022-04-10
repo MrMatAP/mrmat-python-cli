@@ -32,8 +32,8 @@ from mrmat_python_cli.commands import AbstractCommand
 
 
 class LongRunningCommand(AbstractCommand):
-
-    """A long running command class
+    """
+    Implementation of a long-running command
     """
 
     done: bool = False
@@ -47,7 +47,7 @@ class LongRunningCommand(AbstractCommand):
             time.sleep(0.2)
 
     @Halo(text="I'm going to take a while", spinner='dots')
-    def execute(self) -> int:
+    def __call__(self) -> int:
         """
         A long-running operation.
         By default we are using the Halo library to render a spinner. A simple alternative when it is not

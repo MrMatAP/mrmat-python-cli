@@ -21,14 +21,15 @@
 #  SOFTWARE.
 #
 
-"""Main entry point for the Python CLI implementation
+"""
+Main entry point for the Python CLI implementation
 """
 
-import os
 import sys
+import typing
+import argparse
 from configparser import ConfigParser
-from typing import List, Optional
-from argparse import ArgumentParser, Namespace
+import inspect
 import cli_ui
 
 from mrmat_python_cli import __version__
@@ -36,81 +37,89 @@ from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
     LongRunningCommand,
-    ConfigShowCommand)
+    ResourceCommands)
 
 
-def parse_args(argv: List[str]) -> Optional[Namespace]:
-    """A dedicated function to parse the command line arguments. Makes it a lot easier
-    to test CLI parameters.
-
-    This will exit with code 0 and show help if no command is chosen.
-
-    Args
-        argv: The command line parameters, minus the name of the script
-    Returns
-        The parse command line arguments
-    """
-    parser = ArgumentParser(add_help=False,
-                            description=f'mrmat-python-cli-cui - {__version__}')  # NOSONAR
-    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
-    parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
-    parser.add_argument('-c', '--config',
-                        dest='config',
-                        required=False,
-                        default=os.path.expanduser(os.path.join('~', '.mrmat-python-cli')))
-
-    command_parser = parser.add_subparsers(dest='command')
-    greeting_parser = command_parser.add_parser('greeting',
-                                                help='Obtain a greeting',
-                                                )
-    greeting_parser.add_argument('-n', '--name',
-                                 dest='name',
-                                 required=False,
-                                 help='Name to greet (defaults to "World"')
-    greeting_parser.set_defaults(cmd=GreetingCommand)
-    ui_demo_parser = command_parser.add_parser('ui-demo',
-                                               help='UI Demo')
-    ui_demo_parser.set_defaults(cmd=UIDemoCommand)
-
-    long_running_parser = command_parser.add_parser('long-running',
-                                                    help='Long Running Command')
-    long_running_parser.set_defaults(cmd=LongRunningCommand)
-
-    config_show_parser = command_parser.add_parser('config-show',
-                                                   help='Show the current configuration')
-    config_show_parser.set_defaults(cmd=ConfigShowCommand)
-
-    args = parser.parse_args(argv)
-    if (not hasattr(args, 'command')) or args.command is None:
-        parser.print_help()
-        return None
-    return args
+def inline_cmd(args: argparse.Namespace, config: ConfigParser) -> int:  # pylint: disable=W0613
+    print('I am an inline command')
+    return 0
 
 
-def main(argv=None) -> int:
+def main(args: typing.List) -> int:
     """
     Main entry point for the CLI
 
     Returns
         An exit code. 0 when successful, non-zero otherwise
     """
-    args = parse_args(argv if argv is not None else sys.argv[1:])
-    if args is None:
-        return 0
-    config = ConfigParser(strict=True, defaults={'foo': 'bar'})
-    if os.path.exists(args.config):
+    parser = argparse.ArgumentParser(add_help=False, description=f'{__name__} - {__version__}')
+    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
+    parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
+    parser.add_argument('-c', '--config', dest='config', help='Configuration file')
+    subparsers = parser.add_subparsers(dest='group')
+
+    greeting_parser = subparsers.add_parser(name='greeting', help='Obtain a greeting')
+    greeting_parser.add_argument('--name', '-n',
+                                 dest='name',
+                                 type=str,
+                                 required=False,
+                                 default='World',
+                                 help='The name to greet')
+    greeting_parser.set_defaults(cmd=GreetingCommand)
+
+    ui_demo_parser = subparsers.add_parser(name='ui', help='Show a UI demo')
+    ui_demo_parser.set_defaults(cmd=UIDemoCommand)
+
+    long_cmd_parser = subparsers.add_parser(name='long', help='Execute a long running command')
+    long_cmd_parser.set_defaults(cmd=LongRunningCommand)
+
+    inline_cmd_parser = subparsers.add_parser(name='inline', help='Execute an inline command')
+    inline_cmd_parser.set_defaults(cmd=inline_cmd)
+
+    resource_parser = subparsers.add_parser(name='resource', help='Resource commands')
+    resource_subparser = resource_parser.add_subparsers()
+    resource_list_parser = resource_subparser.add_parser(name='list', help='List all resources')
+    resource_list_parser.set_defaults(cmd=ResourceCommands.list)
+    resource_get_parser = resource_subparser.add_parser(name='get', help='Get a resource')
+    resource_get_parser.add_argument('--id',
+                                     dest='id',
+                                     type=int,
+                                     required=True,
+                                     help='The resource id to get')
+    resource_get_parser.set_defaults(cmd=ResourceCommands.get)
+    resource_create_parser = resource_subparser.add_parser(name='create', help='Create a resource')
+    resource_create_parser.set_defaults(cmd=ResourceCommands.create)
+    resource_modify_parser = resource_subparser.add_parser(name='modify', help='Modify a resource')
+    resource_modify_parser.add_argument('--id',
+                                        dest='id',
+                                        type=int,
+                                        required=True,
+                                        help='The resource id to modify')
+    resource_modify_parser.set_defaults(cmd=ResourceCommands.modify)
+    resource_remove_parser = resource_subparser.add_parser(name='remove', help='Remove a resource')
+    resource_remove_parser.add_argument('--id',
+                                        dest='id',
+                                        type=int,
+                                        required=True,
+                                        help='The resource id to remove')
+    resource_remove_parser.set_defaults(cmd=ResourceCommands.remove)
+
+    args = parser.parse_args(args)
+
+    config = ConfigParser(strict=True, defaults=dict(foo='bar'))
+    if args.config:
         config.read(args.config)
-    else:
-        with open(args.config, 'w+', encoding='UTF-8') as c:
-            config.write(c)
     cli_ui.setup(verbose=args.debug, quiet=args.quiet, timestamp=False)
 
-    #
-    # Execute the command passed in via the parser default
-    # Show help if no command was selected
-
-    cmd = args.cmd(args, config)
-    return cmd.execute()
+    if hasattr(args, 'cmd'):
+        # This may be simplified to just args.cmd(args, config) if you don't use command classes
+        return args.cmd(args, config)() if inspect.isclass(args.cmd) else args.cmd(args, config)
+    elif hasattr(args, 'group'):
+        subparser = subparsers.choices.get(args.group)
+        subparser.print_help() if subparser else parser.print_help()    # pylint: disable=W0106
+    else:
+        parser.print_help()
+    return 1
 
 
 if __name__ == '__main__':

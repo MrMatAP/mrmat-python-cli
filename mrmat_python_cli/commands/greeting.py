@@ -29,9 +29,10 @@ from mrmat_python_cli.commands import AbstractCommand
 
 class GreetingCommand(AbstractCommand):
 
-    """Greeting command class
+    """
+    Implementation of the greeting command
     """
 
-    def execute(self) -> int:
+    def __call__(self) -> int:
         print(f'Hello {self._args.name}')
         return 0

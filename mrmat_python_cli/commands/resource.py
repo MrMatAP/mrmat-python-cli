@@ -21,21 +21,42 @@
 #  SOFTWARE.
 #
 
-"""A command to show current configuration
+"""
+Implementation of resource commands
 """
 
-import cli_ui
+import argparse
+from configparser import ConfigParser
 
-from mrmat_python_cli.commands import AbstractCommand
+from mrmat_python_cli.commands import AbstractResourceCommands
 
 
-class ConfigShowCommand(AbstractCommand):
+class ResourceCommands(AbstractResourceCommands):
+    """
+    Implementation of resource commands
+    """
 
-    def execute(self) -> int:
-        sections = self._config.sections()
-        sections.append(self._config.default_section)
-        for section in sections:
-            cli_ui.info_section(section)
-            for item in self._config[section]:
-                cli_ui.info(f'{item}: {self._config.get(section, item)}')
+    @staticmethod
+    def list(args: argparse.Namespace, config: ConfigParser) -> int:
+        print('I would return a list of resources')
+        return 0
+
+    @staticmethod
+    def get(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would return resource with id {args.id}')
+        return 0
+
+    @staticmethod
+    def create(args: argparse.Namespace, config: ConfigParser) -> int:
+        print('I would create a resource')
+        return 0
+
+    @staticmethod
+    def modify(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would modify a resource with id {args.id}')
+        return 0
+
+    @staticmethod
+    def remove(args: argparse.Namespace, config: ConfigParser) -> int:
+        print(f'I would remove a resource with id {args.id}')
         return 0
