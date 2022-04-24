@@ -5,6 +5,7 @@
 # Runtime requirements
 
 rich~=10.14.0       # MIT
+requests~=2.27.1    # Apache 2.0
 
 # Build/Test requirements
 
