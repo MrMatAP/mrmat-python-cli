@@ -21,6 +21,10 @@
 #  SOFTWARE.
 #
 
+"""
+Tests for mrmat-python-cli
+"""
+
 from mrmat_python_cli.cui import main
 
 
@@ -28,7 +32,7 @@ def test_toplevel_help(capsys):
     ret = main([])
     captured = capsys.readouterr()
     assert ret == 1
-    assert '{greeting,ui,long,inline,resource}' in captured.out
+    assert '{greeting,ui,long,inline,resource' in captured.out
 
 
 def test_inline(capsys):

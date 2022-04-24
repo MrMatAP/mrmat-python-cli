@@ -36,7 +36,9 @@ from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
     LongRunningCommand,
-    ResourceCommands)
+    ResourceCommands,
+    OpenIDRSTokenCommand
+)
 
 
 def inline_cmd(args: argparse.Namespace, config: ConfigParser) -> int:  # pylint: disable=W0613
@@ -103,6 +105,34 @@ def main(args: typing.List) -> int:
                                         help='The resource id to remove')
     resource_remove_parser.set_defaults(cmd=ResourceCommands.remove)
 
+    openid_parser = subparsers.add_parser(name='openid', help='OpenID commands')
+    openid_subparser = openid_parser.add_subparsers()
+
+    openid_rs_parser = openid_subparser.add_parser(name='rs', help='OpenID resource server commands')
+    openid_rs_subparser = openid_rs_parser.add_subparsers()
+    openid_rs_token_parser = openid_rs_subparser.add_parser(name='token', help='Obtain a token')
+    openid_rs_token_parser.set_defaults(cmd=OpenIDRSTokenCommand)
+    openid_rs_token_parser.add_argument('--well-known',
+                                        dest='well_known',
+                                        type=str,
+                                        required=False,
+                                        default='https://keycloak.mrmat.org/realms/master/'
+                                                '.well-known/openid-configuration',
+                                        help='The IDP\'s well-known configuration URI')
+    openid_rs_token_parser.add_argument('--client_id',
+                                        dest='client_id',
+                                        required=False,
+                                        default='mrmat-python-cli',
+                                        help='The client_id of the resource server')
+    openid_rs_token_parser.add_argument('--scope',
+                                        dest='scope',
+                                        required=False,
+                                        help='Optional scope')
+    # openid_rs_token_parser.add_argument('--client_secret',
+    #                                     dest='client_secret',
+    #                                     required=True,
+    #                                     help='The client secret of the resource server')
+
     args = parser.parse_args(args)
 
     config = ConfigParser(strict=True, defaults=dict(foo='bar'))
@@ -114,7 +144,7 @@ def main(args: typing.List) -> int:
         return args.cmd(args, config)() if inspect.isclass(args.cmd) else args.cmd(args, config)
     elif hasattr(args, 'group'):
         subparser = subparsers.choices.get(args.group)
-        subparser.print_help() if subparser else parser.print_help()    # pylint: disable=W0106
+        subparser.print_help() if subparser else parser.print_help()  # pylint: disable=W0106
     else:
         parser.print_help()
     return 1
