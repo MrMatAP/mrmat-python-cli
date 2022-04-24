@@ -25,7 +25,7 @@
 Implementation of token acquisition with device code flow
 """
 
-from commands import AbstractCommand
+from mrmat_python_cli.commands import AbstractCommand
 from mrmat_python_cli import console
 import requests
 import time
