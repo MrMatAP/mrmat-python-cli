@@ -32,3 +32,4 @@ from .long import LongRunningCommand                                # noqa: F401
 
 from .abstract_resource_commands import AbstractResourceCommands    # noqa: F401
 from .resource import ResourceCommands                              # noqa: F401
+from .openid_rs_token import OpenIDRSTokenCommand                   # noqa: F401
