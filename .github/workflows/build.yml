@@ -9,7 +9,7 @@ name: Build
 env:
   MAJOR: 0
   MINOR: 0
-  PYTHON_VERSION: 3.10.0
+  PYTHON_VERSION: 3.11.0
 
 #
 # Establish when the workflow is run
@@ -44,7 +44,7 @@ jobs:
     - name: Calculate Build Context
       run: |
         MRMAT_VERSION="${MAJOR}.${MINOR}.${GITHUB_RUN_NUMBER}"
-        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' && GITHUB_BASE_REF == 'main']; then
+        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' -a "$GITHUB_BASE_REF" == 'main' ]; then
           MRMAT_IS_RELEASE=true
           echo "::warning ::Building release ${MRMAT_VERSION}"
           echo "MRMAT_IS_RELEASE=true" >> $GITHUB_ENV
