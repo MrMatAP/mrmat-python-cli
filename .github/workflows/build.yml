@@ -62,7 +62,7 @@ jobs:
     - name: Establish a cache for dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.local
+        path: ~/.cache/pip
         key: ${{ runner.os }}
 
     - name: Build
