@@ -45,7 +45,7 @@ def inline_cmd(args: argparse.Namespace, config: ConfigParser) -> int:  # pylint
     return 0
 
 
-def main(args: typing.List) -> int:
+def main(args: typing.Optional[typing.List] = None) -> int:
     """
     Main entry point for the CLI
 
@@ -103,7 +103,7 @@ def main(args: typing.List) -> int:
                                         required=True,
                                         help='The resource id to remove')
     resource_remove_parser.set_defaults(cmd=ResourceCommands.remove)
-    args = parser.parse_args(args)
+    args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     config = ConfigParser(strict=True, defaults=dict(foo='bar'))
     if args.config:
@@ -121,4 +121,4 @@ def main(args: typing.List) -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
