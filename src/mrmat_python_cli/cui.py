@@ -52,7 +52,7 @@ def main(args: typing.Optional[typing.List] = None) -> int:
     Returns
         An exit code. 0 when successful, non-zero otherwise
     """
-    parser = argparse.ArgumentParser(add_help=False, description=f'{__name__} - {__version__}')
+    parser = argparse.ArgumentParser(add_help=True, description=f'{__name__} - {__version__}')
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
     parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
     parser.add_argument('-c', '--config', dest='config', help='Configuration file')
