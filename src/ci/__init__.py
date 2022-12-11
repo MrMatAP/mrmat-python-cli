@@ -23,4 +23,4 @@
 
 import os
 
-version = os.environ['MRMAT_VERSION'] if 'MRMAT_VERSION' in os.environ else '0.0.0.dev0'
+version = os.environ.get('MRMAT_VERSION', '0.0.0.dev0')

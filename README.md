@@ -2,9 +2,12 @@
 
 Boilerplate code for a Python CLI
 
-[![Build](https://github.com/MrMatOrg/mrmat-python-cli/actions/workflows/build.yml/badge.svg)](https://github.com/MrMatOrg/mrmat-python-cli/actions/workflows/build.yml)
+[![Build](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/build.yml/badge.svg)](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/build.yml)
+[![CodeQL](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/codeql.yml)
 
-## Features
+## How to use this
+
+Install as usual, then execute `mrmat-python-cli -h`, featuring
 
 * A command delegation method
 * Long running commands
@@ -33,10 +36,6 @@ It is necessary for setup.cfg to figure out whether and what `MRMAT_VERSION` is 
 an executable in PEP517, we tell it to use the `ci` module for doing so. The `ci` module simply picks up `MRMAT_VERSION`
 from the environment, no more and the module is explicitly ignored from packaging. However, you must ensure that
 the top-level `ci` module is on the Python path as you build (hence the setup above).
-
-## How to run this
-
-Install as usual, then execute `mrmat-python-cli -h`.
 
 ## How this works
 
