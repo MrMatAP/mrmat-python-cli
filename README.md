@@ -2,7 +2,8 @@
 
 Boilerplate code for a Python CLI
 
-[![Build](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/build.yml/badge.svg)](https://github.com/MrMatOrg/mrmat-python-cli/actions/workflows/build.yml)
+[![Build](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/build.yml/badge.svg)](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/build.yml)
+[![CodeQL](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/MrMatAP/mrmat-python-cli/actions/workflows/codeql.yml)
 
 ## How to use this
 
