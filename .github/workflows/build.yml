@@ -9,7 +9,7 @@ name: Build
 env:
   MAJOR: 0
   MINOR: 0
-  PYTHON_VERSION: 3.10.0
+  PYTHON_VERSION: 3.11.0
 
 #
 # Establish when the workflow is run
@@ -44,7 +44,7 @@ jobs:
     - name: Calculate Build Context
       run: |
         MRMAT_VERSION="${MAJOR}.${MINOR}.${GITHUB_RUN_NUMBER}"
-        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' && GITHUB_BASE_REF == 'main']; then
+        if [ "$GITHUB_EVENT_NAME" == 'pull_request_target' -a "$GITHUB_BASE_REF" == 'main' ]; then
           MRMAT_IS_RELEASE=true
           echo "::warning ::Building release ${MRMAT_VERSION}"
           echo "MRMAT_IS_RELEASE=true" >> $GITHUB_ENV
@@ -62,15 +62,15 @@ jobs:
     - name: Establish a cache for dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.local
+        path: ~/.cache/pip
         key: ${{ runner.os }}
 
     - name: Build
       run: |
         pip install --user -r requirements.txt
-        pylint ${GITHUB_WORKSPACE}/mrmat_python_cli
-        PYTHONPATH=${GITHUB_WORKSPACE} python -m pytest --cov=mrmat_python_cli
-        PYTHONPATH=${GITHUB_WORKSPACE} python -m build --wheel -n
+        pylint ${GITHUB_WORKSPACE}/src/mrmat_python_cli
+        PYTHONPATH=${GITHUB_WORKSPACE}/src python -m pytest
+        python -m build --wheel -n  
 
     - name: Upload test results
       uses: actions/upload-artifact@v2

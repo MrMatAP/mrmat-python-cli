@@ -36,8 +36,7 @@ from mrmat_python_cli.commands import (
     GreetingCommand,
     UIDemoCommand,
     LongRunningCommand,
-    ResourceCommands,
-    OpenIDRSTokenCommand
+    ResourceCommands
 )
 
 
@@ -46,14 +45,14 @@ def inline_cmd(args: argparse.Namespace, config: ConfigParser) -> int:  # pylint
     return 0
 
 
-def main(args: typing.List) -> int:
+def main(args: typing.Optional[typing.List] = None) -> int:
     """
     Main entry point for the CLI
 
     Returns
         An exit code. 0 when successful, non-zero otherwise
     """
-    parser = argparse.ArgumentParser(add_help=False, description=f'{__name__} - {__version__}')
+    parser = argparse.ArgumentParser(add_help=True, description=f'{__name__} - {__version__}')
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Silent operation')
     parser.add_argument('-d', '--debug', action='store_true', dest='debug', help='Debug')
     parser.add_argument('-c', '--config', dest='config', help='Configuration file')
@@ -104,36 +103,7 @@ def main(args: typing.List) -> int:
                                         required=True,
                                         help='The resource id to remove')
     resource_remove_parser.set_defaults(cmd=ResourceCommands.remove)
-
-    openid_parser = subparsers.add_parser(name='openid', help='OpenID commands')
-    openid_subparser = openid_parser.add_subparsers()
-
-    openid_rs_parser = openid_subparser.add_parser(name='rs', help='OpenID resource server commands')
-    openid_rs_subparser = openid_rs_parser.add_subparsers()
-    openid_rs_token_parser = openid_rs_subparser.add_parser(name='token', help='Obtain a token')
-    openid_rs_token_parser.set_defaults(cmd=OpenIDRSTokenCommand)
-    openid_rs_token_parser.add_argument('--well-known',
-                                        dest='well_known',
-                                        type=str,
-                                        required=False,
-                                        default='https://keycloak.mrmat.org/realms/master/'
-                                                '.well-known/openid-configuration',
-                                        help='The IDP\'s well-known configuration URI')
-    openid_rs_token_parser.add_argument('--client_id',
-                                        dest='client_id',
-                                        required=False,
-                                        default='mrmat-python-cli',
-                                        help='The client_id of the resource server')
-    openid_rs_token_parser.add_argument('--scope',
-                                        dest='scope',
-                                        required=False,
-                                        help='Optional scope')
-    # openid_rs_token_parser.add_argument('--client_secret',
-    #                                     dest='client_secret',
-    #                                     required=True,
-    #                                     help='The client secret of the resource server')
-
-    args = parser.parse_args(args)
+    args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     config = ConfigParser(strict=True, defaults=dict(foo='bar'))
     if args.config:
@@ -151,4 +121,4 @@ def main(args: typing.List) -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
