@@ -67,10 +67,10 @@ jobs:
 
     - name: Build
       run: |
-        pip install --user -r requirements.txt
-        pylint ${GITHUB_WORKSPACE}/src/mrmat_python_cli
+        pip install --user -r dev-requirements.txt
+        pylint --rcfile ${GITHUB_WORKSPACE}/.pylintrc ${GITHUB_WORKSPACE}/src/mrmat_python_cli
+        python -m build --wheel -n
         PYTHONPATH=${GITHUB_WORKSPACE}/src python -m pytest
-        python -m build --wheel -n  
 
     - name: Upload test results
       uses: actions/upload-artifact@v2

@@ -1,10 +1,7 @@
 [build-system]
 requires = [
     'setuptools>=42.0.0',
-    'wheel >= 0.36.0',
-    'pylint~=2.15.5',           # MIT
-    'pytest~=7.2.0',            # GPL-2.0-or-later
-    'pytest-cov~=4.0.0',        # MIT
+    'wheel >= 0.36.0'
 ]
 build-backend = 'setuptools.build_meta'
 
@@ -28,8 +25,8 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "rich~=12.6.0",
-    "requests~=2.28.1"
+    "rich~=13.4.2",
+    "requests~=2.31.0"
 ]
 dynamic = ["version"]
 
