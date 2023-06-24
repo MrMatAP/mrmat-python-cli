@@ -69,8 +69,8 @@ jobs:
       run: |
         pip install --user -r dev-requirements.txt
         pylint --rcfile ${GITHUB_WORKSPACE}/.pylintrc ${GITHUB_WORKSPACE}/src/mrmat_python_cli
-        PYTHONPATH=${GITHUB_WORKSPACE}/src python -m pytest
         python -m build --wheel -n
+        PYTHONPATH=${GITHUB_WORKSPACE}/src python -m pytest
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
