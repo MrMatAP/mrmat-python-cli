@@ -105,7 +105,7 @@ def main(args: typing.Optional[typing.List] = None) -> int:
     resource_remove_parser.set_defaults(cmd=ResourceCommands.remove)
     args = parser.parse_args(args if args is not None else sys.argv[1:])
 
-    config = ConfigParser(strict=True, defaults=dict(foo='bar'))
+    config = ConfigParser(strict=True, defaults={'foo': 'bar'})
     if args.config:
         config.read(args.config)
 
