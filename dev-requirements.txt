@@ -4,7 +4,7 @@
 
 # Runtime requirements
 
-rich~=12.6.0
+rich~=13.4.2
 requests~=2.31.0
 
 # Build/Test requirements
